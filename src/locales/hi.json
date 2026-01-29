@@ -1,0 +1,48 @@
+{
+    "common": {
+        "loading": "लोड हो रहा है...",
+        "error": "कुछ गलत हो गया"
+    },
+    "auth": {
+        "welcome": "वापसी पर स्वागत है",
+        "signInSubtitle": "जारी रखने के लिए साइन इन करें",
+        "emailPlaceholder": "ईमेल",
+        "passwordPlaceholder": "पासवर्ड",
+        "loginBtn": "लॉग इन करें",
+        "signupBtn": "साइन अप करें",
+        "noAccount": "क्या आपके पास खाता नहीं है?",
+        "createAccount": "खाता बनाएं",
+        "signUpSubtitle": "शुरू करने के लिए साइन अप करें",
+        "alreadyAccount": "क्या आपके पास पहले से एक खाता मौजूद है?"
+    },
+    "products": {
+        "title": "उत्पाद",
+        "cart": "कार्ट"
+    },
+    "cart": {
+        "empty": "आपकी कार्ट खाली है",
+        "shopNow": "अभी खरीदारी करें",
+        "billDetails": "बिल विवरण",
+        "itemTotal": "वस्तु कुल",
+        "deliveryFee": "डिलिवरी शुल्क",
+        "free": "मुफ़्त",
+        "toPay": "भुगतान करें",
+        "checkout": "चेकआउट"
+    },
+    "checkout": {
+        "title": "शिपिंग विवरण",
+        "success": "ऑर्डर सफलतापूर्वक दिया गया!",
+        "successMessage": "धन्यवाद, {{name}}!",
+        "backHome": "खरीदारी जारी रखें",
+        "fullName": "पूरा नाम",
+        "address": "पता",
+        "city": "शहर",
+        "zip": "पिन कोड",
+        "phone": "फ़ोन नंबर",
+        "paymentMethod": "भुगतान का तरीका",
+        "cod": "डिलिवरी पर नकद",
+        "placeOrder": "ऑर्डर दें",
+        "errorTitle": "त्रुटि",
+        "errorMsg": "कृपया सभी शिपिंग विवरण भरें"
+    }
+}

@@ -2,6 +2,7 @@ import { View, Text, StatusBar, useColorScheme } from 'react-native';
 import React from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AppNavigator from './src/navigation/AppNavigator';
+import './src/locales/i18n';
 import { ThemeProvider } from './src/theme/ThemeProvider';
 import { NavigationContainer } from '@react-navigation/native';
 import { Provider } from 'react-redux';

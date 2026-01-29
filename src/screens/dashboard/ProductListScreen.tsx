@@ -12,6 +12,7 @@ import Ionicons from '@react-native-vector-icons/ionicons';
 import { useNavigation } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useTranslation } from 'react-i18next';
 
 import ProductCard from '../../components/ProductCard';
 import { useTheme } from '../../theme/useTheme';
@@ -21,6 +22,7 @@ const ProductListScreen = () => {
   const navigation = useNavigation();
   const { theme } = useTheme();
   const dispatch = useDispatch();
+  const { t, i18n } = useTranslation();
 
   const { items: products, status, hasMore } = useSelector((state: any) => state.products);
 
@@ -41,6 +43,11 @@ const ProductListScreen = () => {
     if (!hasMore || loading) return;
     dispatch(fetchProducts({}) as any);
   }, [hasMore, loading, dispatch]);
+
+  const toggleLanguage = useCallback(() => {
+    const newLang = i18n.language === 'en' ? 'hi' : 'en';
+    i18n.changeLanguage(newLang);
+  }, [i18n]);
 
   const renderItem = useCallback(
     ({ item }: { item: any }) => <ProductCard item={item} />,
@@ -70,16 +77,24 @@ const ProductListScreen = () => {
         ]}
       >
         <Text style={[styles.headerTitle, { color: theme.text }]}>
-          Products
+          {t('products.title')}
         </Text>
 
-        <TouchableOpacity
-          style={[styles.cartBtn, { backgroundColor: theme.primary }]}
-          onPress={() => (navigation as any).navigate('Cart')}
-        >
-          <Ionicons name="cart-outline" size={22} color="#FFF" />
-          <Text style={styles.cartBtnText}>Cart</Text>
-        </TouchableOpacity>
+        <View style={styles.headerActions}>
+          <TouchableOpacity onPress={toggleLanguage} style={styles.langBtn}>
+            <Text style={{ color: theme.primary, fontWeight: 'bold' }}>
+              {i18n.language === 'en' ? 'HI' : 'EN'}
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.cartBtn, { backgroundColor: theme.primary }]}
+            onPress={() => (navigation as any).navigate('Cart')}
+          >
+            <Ionicons name="cart-outline" size={22} color="#FFF" />
+            <Text style={styles.cartBtnText}>{t('products.cart')}</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       {/* Product List */}
@@ -135,9 +150,19 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
   },
 
+  headerActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+
   headerTitle: {
     fontSize: 20,
     fontWeight: 'bold',
+  },
+
+  langBtn: {
+    padding: 8,
+    marginRight: 10,
   },
 
   cartBtn: {

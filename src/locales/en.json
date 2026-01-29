@@ -1,0 +1,48 @@
+{
+    "common": {
+        "loading": "Loading...",
+        "error": "Something went wrong"
+    },
+    "auth": {
+        "welcome": "Welcome Back",
+        "signInSubtitle": "Sign in to continue",
+        "emailPlaceholder": "Email",
+        "passwordPlaceholder": "Password",
+        "loginBtn": "Login",
+        "signupBtn": "Sign Up",
+        "noAccount": "Don't have an account?",
+        "createAccount": "Create Account",
+        "signUpSubtitle": "Sign up to get started",
+        "alreadyAccount": "Already have an account?"
+    },
+    "products": {
+        "title": "Products",
+        "cart": "Cart"
+    },
+    "cart": {
+        "empty": "Your cart is empty",
+        "shopNow": "Shop Now",
+        "billDetails": "Bill Details",
+        "itemTotal": "Item Total",
+        "deliveryFee": "Delivery Fee",
+        "free": "FREE",
+        "toPay": "To Pay",
+        "checkout": "Checkout"
+    },
+    "checkout": {
+        "title": "Shipping Details",
+        "success": "Order Placed Successfully!",
+        "successMessage": "Thank you, {{name}}!",
+        "backHome": "Continue Shopping",
+        "fullName": "Full Name",
+        "address": "Address",
+        "city": "City",
+        "zip": "ZIP Code",
+        "phone": "Phone Number",
+        "paymentMethod": "Payment Method",
+        "cod": "Cash on Delivery",
+        "placeOrder": "Place Order",
+        "errorTitle": "Error",
+        "errorMsg": "Please fill in all shipping details"
+    }
+}

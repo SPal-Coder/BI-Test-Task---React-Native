@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useTranslation } from 'react-i18next';
 import { useTheme } from '../../theme/useTheme';
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
@@ -9,6 +10,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 const LoginScreen = ({ navigation }: any) => {
   const { theme } = useTheme();
+  const { t } = useTranslation();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -73,15 +75,15 @@ const LoginScreen = ({ navigation }: any) => {
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
       <View style={styles.content}>
-        <Text style={[styles.title, { color: theme.text }]}>Welcome Back</Text>
-        <Text style={[styles.subtitle, { color: theme.text }]}>Sign in to continue</Text>
+        <Text style={[styles.title, { color: theme.text }]}>{t('auth.welcome')}</Text>
+        <Text style={[styles.subtitle, { color: theme.text }]}>{t('auth.signInSubtitle')}</Text>
 
         {errors.general && (
           <Text style={styles.generalError}>{errors.general}</Text>
         )}
 
         <CustomInput
-          placeholder="Email"
+          placeholder={t('auth.emailPlaceholder')}
           onChangeText={handleEmailChange}
           keyboardType="email-address"
           autoCapitalize="none"
@@ -89,19 +91,19 @@ const LoginScreen = ({ navigation }: any) => {
           maxLength={50}
         />
         <CustomInput
-          placeholder="Password"
+          placeholder={t('auth.passwordPlaceholder')}
           secureTextEntry
           onChangeText={handlePasswordChange}
           error={errors.password}
           maxLength={30}
         />
 
-        <CustomButton title="Login" onPress={login} loading={loading} />
+        <CustomButton title={t('auth.loginBtn')} onPress={login} loading={loading} />
 
         <View style={styles.footer}>
-          <Text style={{ color: theme.text }}>Don't have an account? </Text>
+          <Text style={{ color: theme.text }}>{t('auth.noAccount')} </Text>
           <TouchableOpacity onPress={navigateToSignup}>
-            <Text style={{ color: theme.primary, fontWeight: 'bold' }}>Sign Up</Text>
+            <Text style={{ color: theme.primary, fontWeight: 'bold' }}>{t('auth.signupBtn')}</Text>
           </TouchableOpacity>
         </View>
       </View>

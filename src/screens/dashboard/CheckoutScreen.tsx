@@ -1,6 +1,7 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { View, Text, Animated, StyleSheet, Alert, ScrollView } from 'react-native';
 import Ionicons from '@react-native-vector-icons/ionicons';
+import { useTranslation } from 'react-i18next';
 
 import { useDispatch } from 'react-redux';
 import { clearCart } from '../../redux/cartSlice';
@@ -10,6 +11,7 @@ import { useTheme } from '../../theme/useTheme';
 
 const CheckoutScreen = ({ navigation }: any) => {
   const { theme } = useTheme();
+  const { t } = useTranslation();
   const scale = useRef(new Animated.Value(0)).current;
   const opacity = useRef(new Animated.Value(0)).current;
   const dispatch = useDispatch();
@@ -31,7 +33,7 @@ const CheckoutScreen = ({ navigation }: any) => {
   const placeOrder = useCallback(() => {
     const { name, address, city, zip, phone } = formData;
     if (!name || !address || !city || !zip || !phone) {
-      Alert.alert('Error', 'Please fill in all shipping details');
+      Alert.alert(t('checkout.errorTitle'), t('checkout.errorMsg'));
       return;
     }
 
@@ -46,7 +48,7 @@ const CheckoutScreen = ({ navigation }: any) => {
         Animated.timing(opacity, { toValue: 1, duration: 800, useNativeDriver: true }),
       ]).start();
     }, 1000);
-  }, [formData, dispatch, scale, opacity]);
+  }, [formData, dispatch, scale, opacity, t]);
 
   const continueShopping = useCallback(() => {
     navigation.navigate('HomeTabs');
@@ -57,51 +59,51 @@ const CheckoutScreen = ({ navigation }: any) => {
       <View style={[styles.container, { backgroundColor: theme.background }]}>
         <ScrollView contentContainerStyle={styles.formContent}>
           <Text style={[styles.title, { color: theme.text, marginBottom: 20 }]}>
-            Shipping Details
+            {t('checkout.title')}
           </Text>
 
           <CustomInput
-            placeholder="Full Name"
+            placeholder={t('checkout.fullName')}
             value={formData.name}
-            onChangeText={t => handleInputChange('name', t)}
+            onChangeText={text => handleInputChange('name', text)}
           />
           <CustomInput
-            placeholder="Address"
+            placeholder={t('checkout.address')}
             value={formData.address}
-            onChangeText={t => handleInputChange('address', t)}
+            onChangeText={text => handleInputChange('address', text)}
           />
           <View style={styles.row}>
             <View style={{ flex: 1, marginRight: 8 }}>
               <CustomInput
-                placeholder="City"
+                placeholder={t('checkout.city')}
                 value={formData.city}
-                onChangeText={t => handleInputChange('city', t)}
+                onChangeText={text => handleInputChange('city', text)}
               />
             </View>
             <View style={{ flex: 1, marginLeft: 8 }}>
               <CustomInput
-                placeholder="ZIP Code"
+                placeholder={t('checkout.zip')}
                 value={formData.zip}
-                onChangeText={t => handleInputChange('zip', t)}
+                onChangeText={text => handleInputChange('zip', text)}
                 keyboardType="numeric"
                 maxLength={6}
               />
             </View>
           </View>
           <CustomInput
-            placeholder="Phone Number"
+            placeholder={t('checkout.phone')}
             value={formData.phone}
-            onChangeText={t => handleInputChange('phone', t)}
+            onChangeText={text => handleInputChange('phone', text)}
             keyboardType="phone-pad"
             maxLength={15}
           />
 
           <View style={[styles.summary, { backgroundColor: theme.card, borderColor: theme.border }]}>
-            <Text style={[styles.summaryTitle, { color: theme.text }]}>Payment Method</Text>
-            <Text style={[styles.summaryText, { color: theme.primary }]}>Cash on Delivery</Text>
+            <Text style={[styles.summaryTitle, { color: theme.text }]}>{t('checkout.paymentMethod')}</Text>
+            <Text style={[styles.summaryText, { color: theme.primary }]}>{t('checkout.cod')}</Text>
           </View>
 
-          <CustomButton title="Place Order" onPress={placeOrder} loading={loading} />
+          <CustomButton title={t('checkout.placeOrder')} onPress={placeOrder} loading={loading} />
         </ScrollView>
       </View>
     );
@@ -115,14 +117,14 @@ const CheckoutScreen = ({ navigation }: any) => {
         </Animated.View>
 
         <Animated.Text style={[styles.title, { opacity, color: theme.text }]}>
-          Order Placed Successfully!
+          {t('checkout.success')}
         </Animated.Text>
 
         <Text style={[styles.subtitle, { color: theme.text }]}>
-          Thank you, {formData.name}!
+          {t('checkout.successMessage', { name: formData.name })}
         </Text>
 
-        <CustomButton title="Continue Shopping" onPress={continueShopping} style={styles.btn} />
+        <CustomButton title={t('checkout.backHome')} onPress={continueShopping} style={styles.btn} />
       </View>
     </View>
   );

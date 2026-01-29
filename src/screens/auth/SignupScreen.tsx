@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { View, Text, Alert, StyleSheet, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useTranslation } from 'react-i18next';
 import CustomInput from '../../components/CustomInput';
 import CustomButton from '../../components/CustomButton';
 import { isValidEmail, isValidPassword } from '../../utils/validators';
@@ -9,6 +10,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 const SignupScreen = ({ navigation }: any) => {
   const { theme } = useTheme();
+  const { t } = useTranslation();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -30,11 +32,11 @@ const SignupScreen = ({ navigation }: any) => {
     const newErrors: any = {};
 
     if (!isValidEmail(email)) {
-      newErrors.email = 'Invalid Email Address';
+      newErrors.email = t('auth.invalidEmail');
       valid = false;
     }
     if (!isValidPassword(password)) {
-      newErrors.password = 'Password must be 8+ chars with letter, number & special char';
+      newErrors.password = t('auth.invalidPassword');
       valid = false;
     }
 
@@ -45,9 +47,11 @@ const SignupScreen = ({ navigation }: any) => {
     setTimeout(async () => {
       await AsyncStorage.setItem('USER', JSON.stringify({ email, password }));
       setLoading(false);
-       navigation.replace('HomeTabs')
+      Alert.alert(t('common.success'), t('auth.accountCreated'), [
+        { text: t('common.ok'), onPress: () => navigation.replace('Login') }
+      ]);
     }, 500);
-  }, [email, password, navigation]);
+  }, [email, password, navigation, t]);
 
   const navigateToLogin = useCallback(() => {
     navigation.navigate('Login');
@@ -56,11 +60,11 @@ const SignupScreen = ({ navigation }: any) => {
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
       <View style={styles.content}>
-        <Text style={[styles.title, { color: theme.text }]}>Create Account</Text>
-        <Text style={[styles.subtitle, { color: theme.text }]}>Sign up to get started</Text>
+        <Text style={[styles.title, { color: theme.text }]}>{t('auth.createAccount')}</Text>
+        <Text style={[styles.subtitle, { color: theme.text }]}>{t('auth.signUpSubtitle')}</Text>
 
         <CustomInput
-          placeholder="Email"
+          placeholder={t('auth.emailPlaceholder')}
           onChangeText={handleEmailChange}
           keyboardType="email-address"
           autoCapitalize="none"
@@ -68,19 +72,19 @@ const SignupScreen = ({ navigation }: any) => {
           maxLength={50}
         />
         <CustomInput
-          placeholder="Password"
+          placeholder={t('auth.passwordPlaceholder')}
           secureTextEntry
           onChangeText={handlePasswordChange}
           error={errors.password}
           maxLength={30}
         />
 
-        <CustomButton title="Sign Up" onPress={signup} loading={loading} />
+        <CustomButton title={t('auth.signupBtn')} onPress={signup} loading={loading} />
 
         <View style={styles.footer}>
-          <Text style={{ color: theme.text }}>Already have an account? </Text>
+          <Text style={{ color: theme.text }}>{t('auth.alreadyAccount')} </Text>
           <TouchableOpacity onPress={navigateToLogin}>
-            <Text style={{ color: theme.primary, fontWeight: 'bold' }}>Login</Text>
+            <Text style={{ color: theme.primary, fontWeight: 'bold' }}>{t('auth.loginBtn')}</Text>
           </TouchableOpacity>
         </View>
       </View>

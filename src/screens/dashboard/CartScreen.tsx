@@ -2,12 +2,14 @@ import React, { useCallback, useMemo } from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSelector, shallowEqual } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { useTheme } from '../../theme/useTheme';
 import ProductCard from '../../components/ProductCard';
 import CustomButton from '../../components/CustomButton';
 
 const CartScreen = ({ navigation }: any) => {
   const { theme } = useTheme();
+  const { t } = useTranslation();
 
   const cart = useSelector(
     (state: any) => state.cart,
@@ -49,11 +51,11 @@ const CartScreen = ({ navigation }: any) => {
         ]}
       >
         <Text style={[styles.emptyText, { color: theme.text }]}>
-          Your cart is empty
+          {t('cart.empty')}
         </Text>
 
         <CustomButton
-          title="Shop Now"
+          title={t('cart.shopNow')}
           onPress={goBack}
           style={styles.shopNowBtn}
         />
@@ -85,20 +87,20 @@ const CartScreen = ({ navigation }: any) => {
       >
         <View style={styles.billDetails}>
           <Text style={[styles.sectionTitle, { color: theme.text }]}>
-            Bill Details
+            {t('cart.billDetails')}
           </Text>
 
           <View style={styles.billRow}>
-            <Text style={{ color: theme.text }}>Item Total</Text>
+            <Text style={{ color: theme.text }}>{t('cart.itemTotal')}</Text>
             <Text style={{ color: theme.text }}>
               ₹ {total.toLocaleString()}
             </Text>
           </View>
 
           <View style={styles.billRow}>
-            <Text style={{ color: theme.text }}>Delivery Fee</Text>
+            <Text style={{ color: theme.text }}>{t('cart.deliveryFee')}</Text>
             <Text style={{ color: 'green', fontWeight: 'bold' }}>
-              FREE
+              {t('cart.free')}
             </Text>
           </View>
 
@@ -108,7 +110,7 @@ const CartScreen = ({ navigation }: any) => {
 
           <View style={styles.totalRow}>
             <Text style={[styles.totalLabel, { color: theme.text }]}>
-              To Pay
+              {t('cart.toPay')}
             </Text>
             <Text
               style={[
@@ -121,7 +123,7 @@ const CartScreen = ({ navigation }: any) => {
           </View>
         </View>
 
-        <CustomButton title="Checkout" onPress={checkout} />
+        <CustomButton title={t('cart.checkout')} onPress={checkout} />
       </View>
     </SafeAreaView>
   );
