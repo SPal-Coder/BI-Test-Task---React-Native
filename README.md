@@ -4,6 +4,17 @@ This is a new [**React Native**](https://reactnative.dev) project, bootstrapped 
 
 > **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
 
+## Step 0: Install Dependencies (Required)
+
+Before running the app, install all required dependencies from the root of the project.
+
+```sh
+npm install
+
+or 
+
+npm install --legacy-peer-deps
+```
 ## Step 1: Start Metro
 
 First, you will need to run **Metro**, the JavaScript build tool for React Native.
