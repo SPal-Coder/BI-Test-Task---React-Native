@@ -9,7 +9,7 @@ export default function SplashScreen({ navigation }: any) {
   useEffect(() => {
     setTimeout(async () => {
       const user = await AsyncStorage.getItem('USER');
-      navigation.replace(user ? 'Products' : 'Login');
+      navigation.replace(user ? 'HomeTabs' : 'Login');
     }, 1200);
   }, []);
 
