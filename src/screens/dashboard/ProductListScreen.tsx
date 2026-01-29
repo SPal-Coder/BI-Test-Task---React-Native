@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import {
   FlatList,
   View,
@@ -10,64 +10,40 @@ import {
 } from 'react-native';
 import Ionicons from '@react-native-vector-icons/ionicons';
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import ProductCard from '../../components/ProductCard';
 import { useTheme } from '../../theme/useTheme';
-import { getProducts } from '../../api/products';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { fetchProducts } from '../../redux/productSlice';
 
 const ProductListScreen = () => {
   const navigation = useNavigation();
   const { theme } = useTheme();
+  const dispatch = useDispatch();
 
-  const [page, setPage] = useState(1);
-  const [products, setProducts] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [refreshing, setRefreshing] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
+  const { items: products, status, hasMore } = useSelector((state: any) => state.products);
 
-  const endReachedLock = useRef(false);
+  const loading = status === 'loading';
 
+  // Initial load
   useEffect(() => {
-    fetchProducts(1);
-  }, []);
-
-  const fetchProducts = useCallback(
-    (pageNum: number, refresh = false) => {
-      if (loading || refreshing) return;
-
-      refresh ? setRefreshing(true) : setLoading(true);
-
-      setTimeout(() => {
-        const nextData = getProducts(pageNum);
-
-        setProducts(prev =>
-          refresh ? nextData : [...prev, ...nextData]
-        );
-
-        setPage(pageNum);
-        setHasMore(nextData.length > 0);
-
-        setLoading(false);
-        setRefreshing(false);
-        endReachedLock.current = false;
-      }, 1000);
-    },
-    [loading, refreshing]
-  );
+    if (status === 'idle') {
+      dispatch(fetchProducts({ refresh: true }) as any);
+    }
+  }, [status, dispatch]);
 
   const onRefresh = useCallback(() => {
-    fetchProducts(1, true);
-  }, [fetchProducts]);
+    dispatch(fetchProducts({ refresh: true }) as any);
+  }, [dispatch]);
 
   const loadMore = useCallback(() => {
-    if (!hasMore || endReachedLock.current) return;
-    endReachedLock.current = true;
-    fetchProducts(page + 1);
-  }, [page, hasMore, fetchProducts]);
+    if (!hasMore || loading) return;
+    dispatch(fetchProducts({}) as any);
+  }, [hasMore, loading, dispatch]);
 
   const renderItem = useCallback(
-    ({ item }) => <ProductCard item={item} />,
+    ({ item }: { item: any }) => <ProductCard item={item} />,
     []
   );
 
@@ -75,6 +51,14 @@ const ProductListScreen = () => {
     (item: any) => item.id.toString(),
     []
   );
+
+  if (status === 'loading' && products.length === 0) {
+    return (
+      <View style={[styles.centered, { backgroundColor: theme.background }]}>
+        <ActivityIndicator size="large" color={theme.primary} />
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
@@ -105,23 +89,19 @@ const ProductListScreen = () => {
         renderItem={renderItem}
         onEndReached={loadMore}
         onEndReachedThreshold={0.4}
-        initialNumToRender={8}
-        maxToRenderPerBatch={8}
-        windowSize={5}
-        removeClippedSubviews
         refreshControl={
           <RefreshControl
-            refreshing={refreshing}
+            refreshing={status === 'loading' && products.length > 0}
             onRefresh={onRefresh}
             tintColor={theme.primary}
           />
         }
+        contentContainerStyle={styles.listContent}
         ListFooterComponent={
-          loading && !refreshing ? (
+          hasMore ? (
             <ActivityIndicator style={styles.loader} color={theme.primary} />
           ) : null
         }
-        contentContainerStyle={styles.listContent}
       />
     </SafeAreaView>
   );
@@ -131,6 +111,7 @@ export default React.memo(ProductListScreen);
 
 const styles = StyleSheet.create({
   container: { flex: 1 },
+  centered: { flex: 1, justifyContent: 'center', alignItems: 'center' },
 
   listContent: {
     paddingBottom: 20,

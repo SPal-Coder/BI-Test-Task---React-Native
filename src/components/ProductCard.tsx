@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+import FastImage from 'react-native-fast-image';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { addToCart, removeFromCart } from '../redux/cartSlice';
 import QuantityControl from './QuantityControl';
 import { useTheme } from '../theme/useTheme';
-
 
 const ProductCard = ({ item }: any) => {
   const { theme } = useTheme();
@@ -17,7 +17,14 @@ const ProductCard = ({ item }: any) => {
 
   return (
     <View style={[styles.card, { backgroundColor: theme.card, shadowColor: theme.text }]}>
-      <Image source={{ uri: item.thumbnail }} style={styles.image} />
+      <FastImage
+        style={styles.image}
+        source={{
+          uri: item.thumbnail,
+          priority: FastImage.priority.normal,
+        }}
+        resizeMode={FastImage.resizeMode.cover}
+      />
       <View style={styles.content}>
         <Text style={[styles.title, { color: theme.text }]} numberOfLines={2}>
           {item.title}
@@ -25,8 +32,6 @@ const ProductCard = ({ item }: any) => {
         <Text style={[styles.description, { color: theme.text }]} numberOfLines={2}>
           {item.description}
         </Text>
-
-      
 
         <Text style={[styles.price, { color: theme.primary }]}>₹ {item.price}</Text>
 
@@ -57,8 +62,8 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   image: {
-    width: 100,
-    height: 100,
+    width: '30%', // Responsive width relative to card
+    aspectRatio: 1, // Maintain square aspect ratio
     borderRadius: 8,
     backgroundColor: '#f0f0f0',
   },

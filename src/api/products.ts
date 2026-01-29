@@ -1,8 +1,16 @@
-import data from '../data/products.json';
+const BASE_URL = 'https://dummyjson.com';
 
-const PAGE_SIZE = 10;
+export const fetchAllProducts = async (
+  limit: number,
+  skip: number
+) => {
+  const response = await fetch(
+    `${BASE_URL}/products?limit=${limit}&skip=${skip}`
+  );
 
-export const getProducts = (page: number) => {
-  const start = (page - 1) * PAGE_SIZE;
-  return data.products.slice(start, start + PAGE_SIZE);
+  if (!response.ok) {
+    throw new Error('API Error');
+  }
+
+  return response.json();
 };
