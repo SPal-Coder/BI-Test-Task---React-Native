@@ -47,9 +47,7 @@ const SignupScreen = ({ navigation }: any) => {
     setTimeout(async () => {
       await AsyncStorage.setItem('USER', JSON.stringify({ email, password }));
       setLoading(false);
-      Alert.alert(t('common.success'), t('auth.accountCreated'), [
-        { text: t('common.ok'), onPress: () => navigation.replace('Login') }
-      ]);
+     navigation.replace('HomeTabs')
     }, 500);
   }, [email, password, navigation, t]);
 

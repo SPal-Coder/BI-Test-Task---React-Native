@@ -44,11 +44,6 @@ const ProductListScreen = () => {
     dispatch(fetchProducts({}) as any);
   }, [hasMore, loading, dispatch]);
 
-  const toggleLanguage = useCallback(() => {
-    const newLang = i18n.language === 'en' ? 'hi' : 'en';
-    i18n.changeLanguage(newLang);
-  }, [i18n]);
-
   const renderItem = useCallback(
     ({ item }: { item: any }) => <ProductCard item={item} />,
     []
@@ -81,13 +76,7 @@ const ProductListScreen = () => {
         </Text>
 
         <View style={styles.headerActions}>
-          <TouchableOpacity onPress={toggleLanguage} style={styles.langBtn}>
-            <Text style={{ color: theme.primary, fontWeight: 'bold' }}>
-              {i18n.language === 'en' ? 'HI' : 'EN'}
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
+         <TouchableOpacity
             style={[styles.cartBtn, { backgroundColor: theme.primary }]}
             onPress={() => (navigation as any).navigate('Cart')}
           >

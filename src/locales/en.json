@@ -13,7 +13,10 @@
         "noAccount": "Don't have an account?",
         "createAccount": "Create Account",
         "signUpSubtitle": "Sign up to get started",
-        "alreadyAccount": "Already have an account?"
+        "alreadyAccount": "Already have an account?",
+        "invalidEmail":"Invalid Email Address",
+        "invalidPassword":"Password must be 8+ chars with letter, number & special character"
+
     },
     "products": {
         "title": "Products",

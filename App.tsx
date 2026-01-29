@@ -19,7 +19,7 @@ const App = () => {
             <NavigationContainer>
               <StatusBar
                 barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-                backgroundColor={'#fff'}
+                backgroundColor={isDarkMode ? '#121212' : '#fff'}
               />
               <AppNavigator />
             </NavigationContainer>
